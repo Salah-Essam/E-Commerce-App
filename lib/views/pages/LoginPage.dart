@@ -1,0 +1,128 @@
+import 'package:e_commerce/utilities/routes.dart';
+import 'package:e_commerce/views/widgets/main_Button.dart';
+import 'package:flutter/material.dart';
+
+class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
+
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  final _formKey = GlobalKey<FormState>();
+  final _EmailController = TextEditingController();
+  final _PasswordController = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      body: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.symmetric(vertical: 32, horizontal: 32),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text("Login", style: Theme.of(context).textTheme.headlineLarge),
+              const SizedBox(height: 64),
+              TextFormField(
+                controller: _EmailController,
+                validator:
+                    (value) =>
+                        value!.isEmpty ? "Please enter your email" : null,
+                decoration: InputDecoration(
+                  label: Text("Email"),
+                  hintText: "Enter your email !",
+                ),
+              ),
+              const SizedBox(height: 12),
+              TextFormField(
+                controller: _PasswordController,
+                validator:
+                    (value) =>
+                        value!.isEmpty ? "Please enter your password" : null,
+                decoration: InputDecoration(
+                  label: Text("Password"),
+                  hintText: "Enter your Password !",
+                ),
+              ),
+              const SizedBox(height: 8),
+              Align(
+                alignment: Alignment.topRight,
+                child: InkWell(
+                  child: Text("Forgot your password ?"),
+                  onTap: () {},
+                ),
+              ),
+              const SizedBox(height: 32),
+              MainButton(onTap: () {}, text: "LOGIN"),
+              const SizedBox(height: 16),
+              Align(
+                alignment: Alignment.center,
+                child: InkWell(
+                  child: Text(
+                    "Don't have an account ? \n             Register",
+                  ),
+                  onTap: () {
+                    Navigator.of(context).pushNamed(AppRoutes.RegisterPage);
+                  },
+                ),
+              ),
+              const Spacer(),
+              Align(
+                alignment: Alignment.center,
+                child: Text("Or login with social account"),
+              ),
+              SizedBox(height: 8),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  GestureDetector(
+                    onTap: () {},
+                    child: Container(
+                      height: 64,
+                      width: 92,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(18),
+                      ),
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: Image.asset(
+                          "assets/images/Google.png",
+                          width: 24,
+                          height: 24,
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: 16),
+                  GestureDetector(
+                    onTap: () {},
+                    child: Container(
+                      height: 64,
+                      width: 92,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(18),
+                      ),
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: Image.asset(
+                          "assets/images/facebook.png",
+                          width: 24,
+                          height: 24,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
