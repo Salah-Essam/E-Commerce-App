@@ -21,105 +21,122 @@ class _LoginPageState extends State<LoginPage> {
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.symmetric(vertical: 32, horizontal: 32),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text("Login", style: Theme.of(context).textTheme.headlineLarge),
-              const SizedBox(height: 64),
-              TextFormField(
-                controller: _EmailController,
-                validator:
-                    (value) =>
-                        value!.isEmpty ? "Please enter your email" : null,
-                decoration: InputDecoration(
-                  label: Text("Email"),
-                  hintText: "Enter your email !",
-                ),
-              ),
-              const SizedBox(height: 12),
-              TextFormField(
-                controller: _PasswordController,
-                validator:
-                    (value) =>
-                        value!.isEmpty ? "Please enter your password" : null,
-                decoration: InputDecoration(
-                  label: Text("Password"),
-                  hintText: "Enter your Password !",
-                ),
-              ),
-              const SizedBox(height: 8),
-              Align(
-                alignment: Alignment.topRight,
-                child: InkWell(
-                  child: Text("Forgot your password ?"),
-                  onTap: () {},
-                ),
-              ),
-              const SizedBox(height: 32),
-              MainButton(onTap: () {}, text: "LOGIN"),
-              const SizedBox(height: 16),
-              Align(
-                alignment: Alignment.center,
-                child: InkWell(
-                  child: Text(
-                    "Don't have an account ? \n             Register",
+          child: Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text("Login", style: Theme.of(context).textTheme.headlineLarge),
+                const SizedBox(height: 64),
+                TextFormField(
+                  controller: _EmailController,
+                  keyboardType: TextInputType.emailAddress,
+                  textInputAction: TextInputAction.next,
+                  validator:
+                      (value) =>
+                          value!.isEmpty ? "Please enter your email" : null,
+                  decoration: InputDecoration(
+                    label: Text("Email"),
+                    hintText: "Enter your email !",
                   ),
+                ),
+                const SizedBox(height: 12),
+                TextFormField(
+                  controller: _PasswordController,
+                  obscureText: true,
+                  keyboardType: TextInputType.visiblePassword,
+                  validator:
+                      (value) =>
+                          value!.isEmpty ? "Please enter your password" : null,
+                  decoration: InputDecoration(
+                    label: Text("Password"),
+                    hintText: "Enter your Password !",
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Align(
+                  alignment: Alignment.topRight,
+                  child: InkWell(
+                    child: Text("Forgot your password ?"),
+                    onTap: () {
+                      Navigator.of(context).pushNamed(AppRoutes.ForgotPassword);
+                    },
+                  ),
+                ),
+                const SizedBox(height: 32),
+                MainButton(
                   onTap: () {
-                    Navigator.of(context).pushNamed(AppRoutes.RegisterPage);
+                    if (_formKey.currentState!.validate()) {
+                      Navigator.of(context).pushNamed(AppRoutes.BottomNavbar);
+                      debugPrint("Auth T");
+                    }
                   },
+                  text: "LOGIN",
                 ),
-              ),
-              const Spacer(),
-              Align(
-                alignment: Alignment.center,
-                child: Text("Or login with social account"),
-              ),
-              SizedBox(height: 8),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  GestureDetector(
-                    onTap: () {},
-                    child: Container(
-                      height: 64,
-                      width: 92,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(18),
-                      ),
-                      child: Align(
-                        alignment: Alignment.center,
-                        child: Image.asset(
-                          "assets/images/Google.png",
-                          width: 24,
-                          height: 24,
+                const SizedBox(height: 16),
+                Align(
+                  alignment: Alignment.center,
+                  child: InkWell(
+                    child: Text(
+                      "Don't have an account ? \n             Register",
+                    ),
+                    onTap: () {
+                      Navigator.of(context).pushNamed(AppRoutes.RegisterPage);
+                    },
+                  ),
+                ),
+                const Spacer(),
+                Align(
+                  alignment: Alignment.center,
+                  child: Text("Or login with social account"),
+                ),
+                SizedBox(height: 8),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    GestureDetector(
+                      onTap: () {},
+                      child: Container(
+                        height: 64,
+                        width: 92,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(18),
+                        ),
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: Image.asset(
+                            "assets/images/Google.png",
+                            width: 24,
+                            height: 24,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  SizedBox(width: 16),
-                  GestureDetector(
-                    onTap: () {},
-                    child: Container(
-                      height: 64,
-                      width: 92,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(18),
-                      ),
-                      child: Align(
-                        alignment: Alignment.center,
-                        child: Image.asset(
-                          "assets/images/facebook.png",
-                          width: 24,
-                          height: 24,
+                    SizedBox(width: 16),
+                    GestureDetector(
+                      onTap: () {},
+                      child: Container(
+                        height: 64,
+                        width: 92,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(18),
+                        ),
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: Image.asset(
+                            "assets/images/facebook.png",
+                            width: 24,
+                            height: 24,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                ],
-              ),
-            ],
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),
