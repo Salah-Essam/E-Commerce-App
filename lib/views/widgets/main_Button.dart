@@ -11,14 +11,14 @@ class MainButton extends StatelessWidget {
       width: double.infinity,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          backgroundColor: Theme.of(context).primaryColor,
+          backgroundColor: Theme.of(context).colorScheme.primary,
         ),
         onPressed: onTap,
         child: Text(
           text,
-          style: Theme.of(
-            context,
-          ).textTheme.labelMedium?.copyWith(color: Colors.white),
+          style: Theme.of(context).textTheme.labelMedium?.copyWith(
+            color: Theme.of(context).colorScheme.onPrimary,
+          ),
         ),
       ),
     );
