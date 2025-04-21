@@ -35,13 +35,17 @@ class ListItemHome extends StatelessWidget {
                           child: DecoratedBox(
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(24),
-                              color: Theme.of(context).primaryColor,
+                              color: Theme.of(context).colorScheme.primary,
                             ),
                             child: Center(
                               child: Text(
                                 " -${product.discountValue}% ",
-                                style: Theme.of(context).textTheme.labelMedium!
-                                    .copyWith(color: Colors.white),
+                                style: Theme.of(
+                                  context,
+                                ).textTheme.labelMedium!.copyWith(
+                                  color:
+                                      Theme.of(context).colorScheme.onPrimary,
+                                ),
                               ),
                             ),
                           ),
@@ -55,13 +59,17 @@ class ListItemHome extends StatelessWidget {
                           child: DecoratedBox(
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(24),
-                              color: Colors.black,
+                              color: Theme.of(context).colorScheme.onSurface,
                             ),
                             child: Center(
                               child: Text(
                                 " NEW ",
-                                style: Theme.of(context).textTheme.labelMedium!
-                                    .copyWith(color: Colors.white),
+                                style: Theme.of(
+                                  context,
+                                ).textTheme.labelMedium!.copyWith(
+                                  color:
+                                      Theme.of(context).colorScheme.onPrimary,
+                                ),
                               ),
                             ),
                           ),
@@ -78,13 +86,16 @@ class ListItemHome extends StatelessWidget {
                       child: DecoratedBox(
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(24),
-                          color: Theme.of(context).primaryColor,
+                          color: Theme.of(context).colorScheme.primary,
                         ),
                         child: Center(
                           child: Text(
                             " -${product.discountValue}% ",
-                            style: Theme.of(context).textTheme.labelMedium!
-                                .copyWith(color: Colors.white),
+                            style: Theme.of(
+                              context,
+                            ).textTheme.labelMedium!.copyWith(
+                              color: Theme.of(context).colorScheme.onPrimary,
+                            ),
                           ),
                         ),
                       ),
@@ -99,13 +110,16 @@ class ListItemHome extends StatelessWidget {
                       child: DecoratedBox(
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(24),
-                          color: Colors.black,
+                          color: Theme.of(context).colorScheme.onSurface,
                         ),
                         child: Center(
                           child: Text(
                             " NEW ",
-                            style: Theme.of(context).textTheme.labelMedium!
-                                .copyWith(color: Colors.white),
+                            style: Theme.of(
+                              context,
+                            ).textTheme.labelMedium!.copyWith(
+                              color: Theme.of(context).colorScheme.onPrimary,
+                            ),
                           ),
                         ),
                       ),
