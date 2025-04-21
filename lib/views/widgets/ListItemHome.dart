@@ -141,13 +141,36 @@ class ListItemHome extends StatelessWidget {
               context,
             ).textTheme.bodyLarge!.copyWith(fontWeight: FontWeight.bold),
           ),
-          Text(
-            "${product.price}\$",
-            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-              fontWeight: FontWeight.bold,
-              color: Color.fromARGB(255, 105, 105, 105),
-            ),
-          ),
+          product.discountValue != null
+              ? Text.rich(
+                TextSpan(
+                  children: [
+                    TextSpan(
+                      text: "${product.price}\$",
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        fontWeight: FontWeight.bold,
+                        color: Color.fromARGB(255, 105, 105, 105),
+                        decoration: TextDecoration.lineThrough,
+                      ),
+                    ),
+                    TextSpan(
+                      text:
+                          "  ${product.price - (product.price * product.discountValue! / 100)}\$",
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        fontWeight: FontWeight.bold,
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
+                    ),
+                  ],
+                ),
+              )
+              : Text(
+                "${product.price}\$",
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                  fontWeight: FontWeight.bold,
+                  color: Color.fromARGB(255, 105, 105, 105),
+                ),
+              ),
         ],
       ),
     );
