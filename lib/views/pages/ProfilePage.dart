@@ -8,18 +8,24 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final auth = Provider.of<AuthBase>(context);
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text("ProfilePage"),
-        MainButton(
-          onTap: () {
-            auth.signOut();
-          },
-          text: "Sign Out",
-        ),
-      ],
+    return Consumer<AuthBase>(
+      builder: (_, auth, __) {
+        return Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text("ProfilePage"),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 32),
+              child: MainButton(
+                onTap: () {
+                  auth.signOut();
+                },
+                text: "Sign Out",
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 }
