@@ -20,7 +20,8 @@ class _LoginPageState extends State<LoginPage> {
     try {
       await model.Login(true);
 
-      Navigator.of(context).pushNamed(AppRoutes.BottomNavbar);
+      // Navigator.of(context).pop();
+      // Navigator.of(context).pushNamed(AppRoutes.BottomNavbar);
     } catch (e) {
       showDialog(
         context: context,
@@ -109,7 +110,6 @@ class _LoginPageState extends State<LoginPage> {
                     MainButton(
                       onTap: () {
                         if (_formKey.currentState!.validate()) {
-                          debugPrint("${model.email}  +  ${model.password}");
                           _submit(model);
                         }
                       },
