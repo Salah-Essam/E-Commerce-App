@@ -1,4 +1,5 @@
 import 'package:e_commerce/controllers/AuthController.dart';
+import 'package:e_commerce/controllers/database_controller.dart';
 import 'package:e_commerce/services/auth.dart';
 import 'package:e_commerce/views/pages/BottomNavbar.dart';
 import 'package:e_commerce/views/pages/LoginPage.dart';
@@ -25,7 +26,10 @@ class LandingPage extends StatelessWidget {
               child: const LoginPage(),
             );
           }
-          return const BottomNavbar();
+          return Provider<Database>(
+            create: (_) => FirestoreDatabase(uid: user.uid),
+            child: const BottomNavbar(),
+          );
         }
         return Scaffold(body: Center(child: CircularProgressIndicator()));
       },

@@ -14,14 +14,10 @@ class BottomNavbar extends StatefulWidget {
 }
 
 class _BottomNavbarState extends State<BottomNavbar> {
-  List<PersistentTabConfig> _tabs() => [
+  List<PersistentTabConfig> _tabs(double padding) => [
     PersistentTabConfig(
       screen: Padding(
-        padding: EdgeInsets.only(
-          bottom:
-              MediaQuery.of(context).padding.bottom +
-              kBottomNavigationBarHeight,
-        ),
+        padding: EdgeInsets.only(bottom: padding),
         child: const HomePage(),
       ),
       item: ItemConfig(
@@ -32,11 +28,7 @@ class _BottomNavbarState extends State<BottomNavbar> {
     ),
     PersistentTabConfig(
       screen: Padding(
-        padding: EdgeInsets.only(
-          bottom:
-              MediaQuery.of(context).padding.bottom +
-              kBottomNavigationBarHeight,
-        ),
+        padding: EdgeInsets.only(bottom: padding),
         child: const ShopPage(),
       ),
       item: ItemConfig(
@@ -47,11 +39,7 @@ class _BottomNavbarState extends State<BottomNavbar> {
     ),
     PersistentTabConfig(
       screen: Padding(
-        padding: EdgeInsets.only(
-          bottom:
-              MediaQuery.of(context).padding.bottom +
-              kBottomNavigationBarHeight,
-        ),
+        padding: EdgeInsets.only(bottom: padding),
         child: const BagPage(),
       ),
       item: ItemConfig(
@@ -62,11 +50,7 @@ class _BottomNavbarState extends State<BottomNavbar> {
     ),
     PersistentTabConfig(
       screen: Padding(
-        padding: EdgeInsets.only(
-          bottom:
-              MediaQuery.of(context).padding.bottom +
-              kBottomNavigationBarHeight,
-        ),
+        padding: EdgeInsets.only(bottom: padding),
         child: const FavoritesPage(),
       ),
       item: ItemConfig(
@@ -77,11 +61,7 @@ class _BottomNavbarState extends State<BottomNavbar> {
     ),
     PersistentTabConfig(
       screen: Padding(
-        padding: EdgeInsets.only(
-          bottom:
-              MediaQuery.of(context).padding.bottom +
-              kBottomNavigationBarHeight,
-        ),
+        padding: EdgeInsets.only(bottom: padding),
         child: const ProfilePage(),
       ),
       item: ItemConfig(
@@ -93,11 +73,12 @@ class _BottomNavbarState extends State<BottomNavbar> {
   ];
   @override
   Widget build(BuildContext context) {
+    final padding =
+        MediaQuery.of(context).padding.bottom + kBottomNavigationBarHeight;
     return Scaffold(
       body: PersistentTabView(
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-        // backgroundColor: const Color.fromARGB(255, 197, 197, 197),
-        tabs: _tabs(),
+        backgroundColor: Theme.of(context).colorScheme.surface,
+        tabs: _tabs(padding),
         navBarBuilder:
             (navBarConfig) => Style2BottomNavBar(navBarConfig: navBarConfig),
       ),
