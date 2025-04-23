@@ -21,10 +21,12 @@ class ListItemHome extends StatelessWidget {
                   product.ImageUrl,
                   fit: BoxFit.cover,
                   width: 150,
-                  height: 180,
+                  height: 230,
                 ),
               ),
-              (product.discountValue != null && product.New)
+              (product.discountValue != null &&
+                      product.New &&
+                      product.discountValue != 0)
                   ? Column(
                     children: [
                       Padding(
@@ -77,7 +79,7 @@ class ListItemHome extends StatelessWidget {
                       ),
                     ],
                   )
-                  : product.discountValue != null
+                  : product.discountValue != null && product.discountValue != 0
                   ? Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: SizedBox(
@@ -141,7 +143,7 @@ class ListItemHome extends StatelessWidget {
               context,
             ).textTheme.bodyLarge!.copyWith(fontWeight: FontWeight.bold),
           ),
-          product.discountValue != null
+          product.discountValue != null && product.discountValue != 0
               ? Text.rich(
                 TextSpan(
                   children: [

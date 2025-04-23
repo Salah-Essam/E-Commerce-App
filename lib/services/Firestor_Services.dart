@@ -6,11 +6,12 @@ class FirestorServices {
   FirestorServices._();
   static final instatnce = FirestorServices._();
 
-  Future<void> setData({
+  Future<void> addData({
     required String path,
     required Map<String, dynamic> data,
   }) async {
-    final referance = _fireStor.doc(path);
+    final id = data['id'] as String;
+    final referance = _fireStor.collection(path).doc(id);
     debugPrint("Request Data: $data");
     await referance.set(data);
   }

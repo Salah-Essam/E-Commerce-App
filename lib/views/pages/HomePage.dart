@@ -1,7 +1,9 @@
+import 'package:e_commerce/controllers/database_controller.dart';
 import 'package:e_commerce/models/product.dart';
 import 'package:e_commerce/utilities/images.dart';
 import 'package:e_commerce/views/widgets/ListItemHome.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -51,6 +53,7 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final database = Provider.of<Database>(context);
     final size = MediaQuery.of(context).size;
     return SingleChildScrollView(
       child: Column(
@@ -97,20 +100,44 @@ class HomePage extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: SizedBox(
-              height: 300,
+              height: 350,
               width: double.infinity,
-              child: ListView(
-                scrollDirection: Axis.horizontal,
-                children:
-                    dumyProduct
-                        .where((product) => product.discountValue != null)
-                        .map(
-                          (e) => Padding(
-                            padding: const EdgeInsets.only(right: 24, top: 24),
-                            child: ListItemHome(product: e),
-                          ),
-                        )
-                        .toList(),
+              child: StreamBuilder<List<Product>>(
+                stream: database.productsStream(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.active) {
+                    final products = snapshot.data;
+                    if (products == null || products.isEmpty) {
+                      return Center(child: Text("No Data Available..."));
+                    }
+                    return ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount:
+                          products
+                              .where(
+                                (product) =>
+                                    product.discountValue != null &&
+                                    product.discountValue != 0,
+                              )
+                              .length,
+                      itemBuilder: (context, index) {
+                        final saleProducts =
+                            products
+                                .where(
+                                  (product) =>
+                                      product.discountValue != null &&
+                                      product.discountValue != 0,
+                                )
+                                .toList();
+                        return Padding(
+                          padding: const EdgeInsets.only(right: 24, top: 24),
+                          child: ListItemHome(product: saleProducts[index]),
+                        );
+                      },
+                    );
+                  }
+                  return Center(child: CircularProgressIndicator());
+                },
               ),
             ),
           ),
@@ -119,25 +146,37 @@ class HomePage extends StatelessWidget {
             context,
             titleOfHeader: "New",
             onTap: () {},
-            subTitleHeader: "You’ve never seen it before!",
+            subTitleHeader: "You've never seen it before!",
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: SizedBox(
-              height: 300,
+              height: 350,
               width: double.infinity,
-              child: ListView(
-                scrollDirection: Axis.horizontal,
-                children:
-                    dumyProduct
-                        .where((product) => product.New)
-                        .map(
-                          (e) => Padding(
-                            padding: const EdgeInsets.only(right: 24, top: 24),
-                            child: ListItemHome(product: e),
-                          ),
-                        )
-                        .toList(),
+              child: StreamBuilder<List<Product>>(
+                stream: database.productsStream(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.active) {
+                    final products = snapshot.data;
+                    if (products == null || products.isEmpty) {
+                      return Center(child: Text("No Datat Available ."));
+                    }
+                    return ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount:
+                          products.where((product) => product.New).length,
+                      itemBuilder: (context, index) {
+                        final newProducts =
+                            products.where((product) => product.New).toList();
+                        return Padding(
+                          padding: const EdgeInsets.only(right: 24, top: 24),
+                          child: ListItemHome(product: newProducts[index]),
+                        );
+                      },
+                    );
+                  }
+                  return Center(child: CircularProgressIndicator());
+                },
               ),
             ),
           ),
