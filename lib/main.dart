@@ -23,6 +23,10 @@ class MyApp extends StatelessWidget {
         title: 'E Commerce App',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
+          appBarTheme: AppBarTheme(
+            backgroundColor: Colors.white,
+            iconTheme: IconThemeData(color: Colors.black),
+          ),
           colorScheme: ColorScheme.fromSeed(
             seedColor: const Color(0xFFDB3022),
             primary: const Color(0xFFDB3022),

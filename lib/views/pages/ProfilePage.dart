@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:e_commerce/controllers/ProductProvider.dart';
+import 'package:e_commerce/models/product.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -46,7 +47,7 @@ class ProfilePage extends StatelessWidget {
 
   //TODO : دي المفروض انها تكون خاصية للموظفين فقط
   void _showAddProductDialog(BuildContext context, Database database) {
-    final _formKey = GlobalKey<FormState>();
+    final formKey = GlobalKey<FormState>();
     showDialog(
       context: context,
       builder:
@@ -59,7 +60,7 @@ class ProfilePage extends StatelessWidget {
                     content: ConstrainedBox(
                       constraints: BoxConstraints(maxWidth: 400),
                       child: Form(
-                        key: _formKey,
+                        key: formKey,
                         child: SingleChildScrollView(
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
@@ -170,21 +171,22 @@ class ProfilePage extends StatelessWidget {
                       ),
                       TextButton(
                         onPressed: () async {
-                          if (_formKey.currentState!.validate()) {
+                          if (formKey.currentState!.validate()) {
                             try {
-                              final productId =
-                                  DateTime.now().millisecondsSinceEpoch
-                                      .toString();
-                              await database.addProduct({
-                                'id': productId,
-                                'title': productProvider.title,
-                                'price': productProvider.price,
-                                'category': productProvider.category,
-                                'ImageUrl': productProvider.imageUrl,
-                                'discountValue': productProvider.discount,
-                                'rate': productProvider.rate,
-                                'New': productProvider.isNew,
-                              });
+                              final productId = DateTime.now().toString();
+
+                              database.setProduct(
+                                Product(
+                                  id: productId,
+                                  title: productProvider.title!,
+                                  price: productProvider.price!,
+                                  category: productProvider.category!,
+                                  imageUrl: productProvider.imageUrl!,
+                                  discountValue: productProvider.discount,
+                                  rate: productProvider.rate,
+                                  isNew: productProvider.isNew!,
+                                ),
+                              );
                               Navigator.of(context).pop();
                             } catch (e) {
                               ScaffoldMessenger.of(context).showSnackBar(

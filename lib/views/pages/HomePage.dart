@@ -1,55 +1,13 @@
 import 'package:e_commerce/controllers/database_controller.dart';
 import 'package:e_commerce/models/product.dart';
 import 'package:e_commerce/utilities/images.dart';
+import 'package:e_commerce/views/widgets/HeaderOfList.dart';
 import 'package:e_commerce/views/widgets/ListItemHome.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
-
-  Widget _buildHeaderAndList(
-    BuildContext context, {
-    required String titleOfHeader,
-    VoidCallback? onTap,
-    required String subTitleHeader,
-  }) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Text(
-                titleOfHeader,
-                style: Theme.of(context).textTheme.displaySmall!.copyWith(
-                  fontWeight: FontWeight.bold,
-                  color: Color(0xff222222),
-                ),
-              ),
-              const Spacer(),
-              InkWell(
-                onTap: onTap,
-                child: Text(
-                  "View all",
-                  style: Theme.of(
-                    context,
-                  ).textTheme.bodyMedium!.copyWith(color: Color(0xff222222)),
-                ),
-              ),
-            ],
-          ),
-          Text(
-            subTitleHeader,
-            style: Theme.of(
-              context,
-            ).textTheme.bodyLarge!.copyWith(color: Color(0xff9B9B9B)),
-          ),
-        ],
-      ),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -91,8 +49,8 @@ class HomePage extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 24),
-          _buildHeaderAndList(
-            context,
+          HeaderOfList(
+            context: context,
             titleOfHeader: "Sale",
             onTap: () {},
             subTitleHeader: "Super summer sale",
@@ -142,8 +100,8 @@ class HomePage extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 24),
-          _buildHeaderAndList(
-            context,
+          HeaderOfList(
+            context: context,
             titleOfHeader: "New",
             onTap: () {},
             subTitleHeader: "You've never seen it before!",
@@ -164,10 +122,10 @@ class HomePage extends StatelessWidget {
                     return ListView.builder(
                       scrollDirection: Axis.horizontal,
                       itemCount:
-                          products.where((product) => product.New).length,
+                          products.where((product) => product.isNew).length,
                       itemBuilder: (context, index) {
                         final newProducts =
-                            products.where((product) => product.New).toList();
+                            products.where((product) => product.isNew).toList();
                         return Padding(
                           padding: const EdgeInsets.only(right: 24, top: 24),
                           child: ListItemHome(product: newProducts[index]),

@@ -4,14 +4,24 @@ import 'package:flutter/material.dart';
 class FirestorServices {
   final _fireStor = FirebaseFirestore.instance;
   FirestorServices._();
-  static final instatnce = FirestorServices._();
+  static final instance = FirestorServices._();
 
-  Future<void> addData({
+  Stream<List<String>> imagesStream({required String productId}) {
+    final path = 'products/$productId/Images/images';
+    final ref = _fireStor.doc(path);
+
+    return ref.snapshots().map((snapshot) {
+      final data = snapshot.data();
+      if (data == null) return [];
+      return data.values.map((e) => e as String).toList();
+    });
+  }
+
+  Future<void> setData({
     required String path,
     required Map<String, dynamic> data,
   }) async {
-    final id = data['id'] as String;
-    final referance = _fireStor.collection(path).doc(id);
+    final referance = _fireStor.doc(path);
     debugPrint("Request Data: $data");
     await referance.set(data);
   }

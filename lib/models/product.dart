@@ -3,20 +3,22 @@ class Product {
   final String title;
   final String category;
   final int price;
-  final String ImageUrl;
+  final String imageUrl;
   final int? discountValue;
   final int? rate;
-  final bool New;
+  final bool isNew;
+  final List<String>? imageUrls;
 
   Product({
     required this.id,
     required this.title,
     required this.category,
     required this.price,
-    required this.ImageUrl,
+    required this.imageUrl,
     this.discountValue,
     this.rate,
-    required this.New,
+    required this.isNew,
+    this.imageUrls,
   });
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
@@ -24,10 +26,10 @@ class Product {
       'title': title,
       'category': category,
       'price': price,
-      'ImageUrl': ImageUrl,
+      'ImageUrl': imageUrl,
       'discountValue': discountValue,
       'rate': rate,
-      'New': New,
+      'New': isNew,
     };
   }
 
@@ -37,11 +39,11 @@ class Product {
       title: map['title'] as String,
       category: map['category'] as String,
       price: map['price'] as int,
-      ImageUrl: map['ImageUrl'] as String,
+      imageUrl: map['ImageUrl'] as String,
       discountValue:
           map['discountValue'] != null ? map['discountValue'] as int : null,
       rate: map['rate'] != null ? map['rate'] as int : null,
-      New: map['New'] as bool,
+      isNew: map['New'] as bool,
     );
   }
 }

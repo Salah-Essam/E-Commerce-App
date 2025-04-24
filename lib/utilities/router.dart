@@ -1,13 +1,21 @@
+import 'package:e_commerce/models/product.dart';
 import 'package:e_commerce/utilities/routes.dart';
 import 'package:e_commerce/views/pages/ForgotPasswordPage.dart';
 import 'package:e_commerce/views/pages/BottomNavbar.dart';
 import 'package:e_commerce/views/pages/LoginPage.dart';
+import 'package:e_commerce/views/pages/Product_Card.dart';
 import 'package:e_commerce/views/pages/RegisterPage.dart';
 import 'package:e_commerce/views/pages/landingPage.dart';
 import 'package:flutter/cupertino.dart';
 
 Route<dynamic> onGenerate(RouteSettings settings) {
   switch (settings.name) {
+    case AppRoutes.ProductCard:
+      final product = settings.arguments as Product;
+      return CupertinoPageRoute(
+        builder: (_) => ProductCard(product: product),
+        settings: settings,
+      );
     case AppRoutes.BottomNavbar:
       return CupertinoPageRoute(
         builder: (_) => const BottomNavbar(),
