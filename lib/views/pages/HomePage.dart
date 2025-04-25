@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:e_commerce/controllers/database_controller.dart';
 import 'package:e_commerce/models/product.dart';
 import 'package:e_commerce/utilities/images.dart';
@@ -19,11 +20,15 @@ class HomePage extends StatelessWidget {
           Stack(
             alignment: Alignment.bottomLeft,
             children: [
-              Image.network(
-                AppImages.TopBannerHomePage,
+              CachedNetworkImage(
+                imageUrl: AppImages.TopBannerHomePage,
                 width: double.infinity,
                 height: size.height * 0.3,
                 fit: BoxFit.cover,
+                placeholder:
+                    (context, url) =>
+                        Center(child: CircularProgressIndicator()),
+                errorWidget: (context, url, error) => Icon(Icons.error),
               ),
               Opacity(
                 opacity: 0.15,

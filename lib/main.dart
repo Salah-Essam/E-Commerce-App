@@ -1,3 +1,4 @@
+import 'package:e_commerce/controllers/ProductCard_Provider.dart';
 import 'package:e_commerce/services/auth.dart';
 import 'package:e_commerce/utilities/router.dart';
 import 'package:e_commerce/utilities/routes.dart';
@@ -9,7 +10,14 @@ import 'firebase_options.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  runApp(MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => ProductCard_Provider()),
+      ],
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
