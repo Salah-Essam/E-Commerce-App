@@ -80,7 +80,7 @@ class _BottomNavbarState extends State<BottomNavbar> {
         backgroundColor: Theme.of(context).colorScheme.surface,
         tabs: _tabs(padding),
         navBarBuilder:
-            (navBarConfig) => Style2BottomNavBar(navBarConfig: navBarConfig),
+            (navBarConfig) => Style1BottomNavBar(navBarConfig: navBarConfig),
       ),
     );
   }

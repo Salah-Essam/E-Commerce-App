@@ -1,5 +1,8 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:e_commerce/models/product.dart';
 import 'package:e_commerce/utilities/routes.dart';
+import 'package:e_commerce/views/widgets/Love_Botton.dart';
+import 'package:e_commerce/views/widgets/Rating_Bar.dart';
 import 'package:flutter/material.dart';
 
 class ListItemHome extends StatelessWidget {
@@ -23,14 +26,34 @@ class ListItemHome extends StatelessWidget {
           children: [
             Stack(
               children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(12),
-                  child: Image.network(
-                    product.imageUrl,
-                    fit: BoxFit.cover,
-                    width: 150,
-                    height: 230,
+                SizedBox(
+                  height: 250,
+                  child: Align(
+                    alignment: Alignment.topCenter,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(12),
+                      child: CachedNetworkImage(
+                        imageUrl: product.imageUrl,
+                        fit: BoxFit.cover,
+                        width: 150,
+                        height: 230,
+                        placeholder:
+                            (context, url) =>
+                                Center(child: CircularProgressIndicator()),
+                        errorWidget: (context, url, error) => Icon(Icons.error),
+                      ),
+                    ),
                   ),
+                ),
+                Positioned(
+                  bottom: 0,
+                  right: 0,
+                  child: Love_Botton(productId: product.id),
+                ),
+                Positioned(
+                  bottom: 0,
+                  left: 0,
+                  child: Rating_Bar(rate: product.rate!.toDouble()),
                 ),
                 (product.discountValue != null &&
                         product.isNew &&
