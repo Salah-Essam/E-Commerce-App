@@ -23,8 +23,8 @@ class DropDownb extends StatelessWidget {
                   items
                       .map(
                         (String item) => DropdownMenuItem<String>(
-                          child: Text(item),
                           value: item,
+                          child: Text(item),
                         ),
                       )
                       .toList(),

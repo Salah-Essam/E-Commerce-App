@@ -16,7 +16,6 @@ class ProductCard extends StatelessWidget {
     final List<String> sizes = ["S", "M", "L", "XL", "XXL"];
     final List<String> colors = ["Black", "Beige", "Blue", "White", "Coral"];
     final size = MediaQuery.of(context).size;
-    // final product = ModalRoute.of(context)!.settings.arguments;
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: AppBar(
@@ -177,7 +176,7 @@ class ProductCard extends StatelessWidget {
           boxShadow: [BoxShadow(color: Colors.black38, blurRadius: 15)],
         ),
         child: SizedBox(
-          height: size.height * 0.13,
+          height: size.height * 0.11,
           child: SafeArea(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),

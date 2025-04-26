@@ -40,7 +40,24 @@ class ListItemHome extends StatelessWidget {
                         placeholder:
                             (context, url) =>
                                 Center(child: CircularProgressIndicator()),
-                        errorWidget: (context, url, error) => Icon(Icons.error),
+                        errorWidget:
+                            (context, url, error) => DecoratedBox(
+                              decoration: BoxDecoration(
+                                color: Colors.grey[200],
+                              ),
+
+                              child: SizedBox(
+                                width: double.infinity,
+                                height: double.infinity,
+                                child: const Center(
+                                  child: Icon(
+                                    Icons.image_not_supported,
+                                    size: 40,
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                              ),
+                            ),
                       ),
                     ),
                   ),
