@@ -7,7 +7,9 @@ class MainButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return SizedBox(
+      height: size.height * 0.05,
       width: double.infinity,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
@@ -16,7 +18,7 @@ class MainButton extends StatelessWidget {
         onPressed: onTap,
         child: Text(
           text,
-          style: Theme.of(context).textTheme.labelMedium?.copyWith(
+          style: Theme.of(context).textTheme.labelLarge?.copyWith(
             color: Theme.of(context).colorScheme.onPrimary,
           ),
         ),
