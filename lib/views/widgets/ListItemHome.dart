@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:e_commerce/models/product.dart';
 import 'package:e_commerce/utilities/routes.dart';
-import 'package:e_commerce/views/widgets/Love_Botton.dart';
+import 'package:e_commerce/views/widgets/favoriteBotton.dart';
 import 'package:e_commerce/views/widgets/Rating_Bar.dart';
 import 'package:flutter/material.dart';
 
@@ -65,7 +65,7 @@ class ListItemHome extends StatelessWidget {
                 Positioned(
                   bottom: 0,
                   right: 0,
-                  child: Love_Botton(productId: product.id),
+                  child: favoriteBotton(productId: product.id),
                 ),
                 Positioned(
                   bottom: 0,

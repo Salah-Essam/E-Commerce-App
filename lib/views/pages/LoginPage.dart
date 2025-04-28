@@ -18,7 +18,7 @@ class _LoginPageState extends State<LoginPage> {
 
   Future<void> _submit(AuthController model) async {
     try {
-      await model.Login(true);
+      await model.login(true);
 
       // Navigator.of(context).pop();
       // Navigator.of(context).pushNamed(AppRoutes.BottomNavbar);
