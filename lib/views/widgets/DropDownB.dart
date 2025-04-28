@@ -2,15 +2,14 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import 'package:e_commerce/controllers/ProductCard_Provider.dart';
 
-// ignore: must_be_immutable
 class DropDownb extends StatelessWidget {
-  DropDownb({super.key, required this.items, required this.hint});
+  DropDownb({super.key, required this.items, required this.hint, this.color});
   final List<String> items;
   String? selectedValue;
   final String hint;
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +30,11 @@ class DropDownb extends StatelessWidget {
               value: selectedValue,
               onChanged: (String? value) {
                 selectedValue = value;
-                model.selectSize();
+                if (hint == "Size") {
+                  model.updateSize(value!);
+                } else if (hint == "Color") {
+                  model.updateColor(value!);
+                }
               },
               buttonStyleData: ButtonStyleData(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -39,7 +42,7 @@ class DropDownb extends StatelessWidget {
                 width: 140,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: Colors.black26),
+                  border: Border.all(color: color ?? Colors.black26),
                 ),
               ),
               menuItemStyleData: const MenuItemStyleData(height: 30),

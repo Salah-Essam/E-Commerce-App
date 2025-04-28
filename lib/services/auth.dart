@@ -9,7 +9,7 @@ abstract class AuthBase {
 }
 
 class Auth implements AuthBase {
-  final _firebaseAuth = FirebaseAuth.instance;
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   @override
   Future<User?> loginWithEmailAndPassword(String email, String pass) async {
     final user = await _firebaseAuth.signInWithEmailAndPassword(
@@ -25,6 +25,7 @@ class Auth implements AuthBase {
       email: email,
       password: pass,
     );
+
     return user.user;
   }
 

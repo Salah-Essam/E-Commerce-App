@@ -1,11 +1,16 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:e_commerce/controllers/ProductCard_Provider.dart';
+import 'package:e_commerce/controllers/database_controller.dart';
+import 'package:e_commerce/models/ProductInBag.dart';
 import 'package:e_commerce/models/product.dart';
 import 'package:e_commerce/services/Firestor_Services.dart';
 import 'package:e_commerce/views/widgets/DropDownB.dart';
-import 'package:e_commerce/views/widgets/Love_Botton.dart';
+import 'package:e_commerce/views/widgets/favoriteBotton.dart';
 import 'package:e_commerce/views/widgets/Rating_Bar.dart';
 import 'package:e_commerce/views/widgets/main_Button.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ProductCard extends StatelessWidget {
   final Product product;
@@ -71,7 +76,7 @@ class ProductCard extends StatelessWidget {
                           DropDownb(items: colors, hint: "Color"),
                         ],
                       ),
-                      Love_Botton(productId: product.id),
+                      favoriteBotton(productId: product.id),
                     ],
                   ),
                   const SizedBox(height: 8),
@@ -170,22 +175,91 @@ class ProductCard extends StatelessWidget {
           ],
         ),
       ),
-      bottomNavigationBar: DecoratedBox(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          boxShadow: [BoxShadow(color: Colors.black38, blurRadius: 15)],
-        ),
-        child: SizedBox(
-          height: size.height * 0.11,
-          child: SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Center(
-                child: MainButton(onTap: () {}, text: "ADD TO CART"),
+      bottomNavigationBar: Consumer<ProductCard_Provider>(
+        builder:
+            (_, model, __) => DecoratedBox(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                boxShadow: [BoxShadow(color: Colors.black38, blurRadius: 15)],
+              ),
+              child: SizedBox(
+                height: size.height * 0.11,
+                child: SafeArea(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: Center(
+                      child: MainButton(
+                        onTap: () {
+                          if (model.size.isNotEmpty && model.color.isNotEmpty) {
+                            try {
+                              final Database database = FirestoreDatabase(
+                                uid: FirebaseAuth.instance.currentUser!.uid,
+                              );
+                              final productInBag = ProductInBag(
+                                id: product.id,
+                                title: product.title,
+                                price: product.price,
+                                imageUrl: product.imageUrl,
+                                quantity: 1,
+                                size: model.size,
+                                color: model.color,
+                                discountValue: product.discountValue,
+                              );
+                              database.setProductInBag(productInBag);
+                              model.updateSize("");
+                              model.updateColor("");
+
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text("Product added to bag"),
+                                  backgroundColor: Colors.green,
+                                  duration: Duration(seconds: 2),
+                                  behavior: SnackBarBehavior.floating,
+                                ),
+                              );
+                            } catch (e) {
+                              debugPrint(e.toString());
+                            }
+                          } else {
+                            showDialog(
+                              context: context,
+                              builder:
+                                  (context) => AlertDialog(
+                                    backgroundColor: Colors.white,
+                                    title: Text(
+                                      "Please select size and color",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyLarge!
+                                          .copyWith(color: Colors.red),
+                                    ),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                        child: Text(
+                                          "OK",
+                                          style: Theme.of(
+                                            context,
+                                          ).textTheme.bodyLarge!.copyWith(
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                            );
+                          }
+                        },
+                        text: "ADD TO CART",
+                      ),
+                    ),
+                  ),
+                ),
               ),
             ),
-          ),
-        ),
       ),
     );
   }

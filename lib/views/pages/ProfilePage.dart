@@ -36,6 +36,7 @@ class ProfilePage extends StatelessWidget {
                     onTap: () => _showAddProductDialog(context, database),
                     text: "add product",
                   ),
+                  const SizedBox(height: 64),
                 ],
               ),
             ),

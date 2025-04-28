@@ -104,7 +104,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             debugPrint(
                               "${model.name}  +  ${model.email}  +  ${model.password}",
                             );
-                            model.Login(false);
+                            model.login(false);
                             Navigator.of(context).pop();
                           }
                         },

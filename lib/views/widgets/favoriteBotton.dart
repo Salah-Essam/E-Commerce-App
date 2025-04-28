@@ -2,9 +2,9 @@ import 'package:e_commerce/controllers/ProductCard_Provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class Love_Botton extends StatelessWidget {
+class favoriteBotton extends StatelessWidget {
   final String productId;
-  const Love_Botton({super.key, required this.productId});
+  const favoriteBotton({super.key, required this.productId});
 
   @override
   Widget build(BuildContext context) {
