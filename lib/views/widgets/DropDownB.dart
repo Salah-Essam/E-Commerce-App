@@ -7,12 +7,12 @@ import 'package:e_commerce/controllers/ProductCard_Provider.dart';
 class DropDownb extends StatelessWidget {
   DropDownb({super.key, required this.items, required this.hint, this.color});
   final List<String> items;
-  String? selectedValue;
   final String hint;
   final Color? color;
 
   @override
   Widget build(BuildContext context) {
+    String? selectedValue;
     return Consumer<ProductCard_Provider>(
       builder:
           (_, model, __) => DropdownButtonHideUnderline(
