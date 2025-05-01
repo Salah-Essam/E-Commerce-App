@@ -7,18 +7,28 @@ import 'package:e_commerce/utilities/ApiPaths.dart';
 abstract class Database {
   Future<void> setProduct(Product product);
   Stream<List<Product>> productsStream();
+  Future<Product?> getProductById(String productId);
   Future<void> setUserData(UserData userData);
   Future<void> setFavoriteProduct(String productId);
   Future<void> deleteFavoriteProduct(String productId);
   Stream<Set<String>> favoriteProductsStream();
   Future<void> setProductInBag(ProductInBag productInBag);
   Future<void> deleteProductInBag(String productId);
+  Stream<List<ProductInBag>> productInBagStream();
 }
 
 class FirestoreDatabase implements Database {
   final String uid;
   final _service = FirestorServices.instance;
   FirestoreDatabase({required this.uid});
+
+  @override
+  Future<Product?> getProductById(String productId) async {
+    final product = await _service.getDocument(
+      path: "${Apipaths.products()}$productId",
+    );
+    return product != null ? Product.fromMap(product, productId) : null;
+  }
 
   @override
   Stream<List<Product>> productsStream() => _service.collectionsStream(
@@ -29,7 +39,7 @@ class FirestoreDatabase implements Database {
   @override
   Future<void> setProduct(Product product) async {
     await _service.setData(
-      path: "${Apipaths.products}${product.id}",
+      path: "${Apipaths.products()}${product.id}",
       data: product.toMap(),
     );
   }
@@ -73,4 +83,10 @@ class FirestoreDatabase implements Database {
   @override
   Future<void> deleteProductInBag(String productId) async =>
       await _service.deleteData(path: Apipaths.setProductInBag(productId));
+
+  @override
+  Stream<List<ProductInBag>> productInBagStream() => _service.collectionsStream(
+    path: Apipaths.productInBag(),
+    builder: (data, documentId) => ProductInBag.fromMap(data!, documentId),
+  );
 }

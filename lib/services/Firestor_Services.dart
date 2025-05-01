@@ -17,6 +17,14 @@ class FirestorServices {
     });
   }
 
+  Future<Map<String, dynamic>?> getDocument({required String path}) async {
+    final doc = await _fireStor.doc(path).get();
+    if (doc.exists) {
+      return doc.data() as Map<String, dynamic>;
+    }
+    return null;
+  }
+
   Future<void> setData({
     required String path,
     required Map<String, dynamic> data,

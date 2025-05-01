@@ -44,13 +44,14 @@ class productInFavorites extends StatelessWidget {
                       ),
                       child: SizedBox(
                         height: size.height * 0.2,
+
                         child: Row(
                           children: [
                             ClipRRect(
                               borderRadius: BorderRadius.circular(16),
                               child: Image.network(
                                 product.imageUrl,
-                                width: size.width * 0.25,
+                                width: size.width * 0.3,
                                 fit: BoxFit.cover,
                               ),
                             ),
@@ -75,12 +76,88 @@ class productInFavorites extends StatelessWidget {
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
-                                  (product.discountValue != null &&
-                                          product.isNew &&
-                                          product.discountValue != 0)
-                                      ? Row(
-                                        children: [
-                                          SizedBox(
+                                  Row(
+                                    children: [
+                                      (product.discountValue != null &&
+                                              product.isNew &&
+                                              product.discountValue != 0)
+                                          ? Row(
+                                            children: [
+                                              SizedBox(
+                                                height: 24,
+                                                width: 40,
+                                                child: DecoratedBox(
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                          24,
+                                                        ),
+                                                    color:
+                                                        Theme.of(
+                                                          context,
+                                                        ).colorScheme.primary,
+                                                  ),
+                                                  child: Center(
+                                                    child: Text(
+                                                      " -${product.discountValue}% ",
+                                                      style: Theme.of(context)
+                                                          .textTheme
+                                                          .labelMedium!
+                                                          .copyWith(
+                                                            color:
+                                                                Theme.of(
+                                                                      context,
+                                                                    )
+                                                                    .colorScheme
+                                                                    .onPrimary,
+                                                          ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                  left: 8,
+                                                  right: 8,
+                                                ),
+                                                child: SizedBox(
+                                                  height: 24,
+                                                  width: 40,
+                                                  child: DecoratedBox(
+                                                    decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                            24,
+                                                          ),
+                                                      color:
+                                                          Theme.of(context)
+                                                              .colorScheme
+                                                              .onSurface,
+                                                    ),
+                                                    child: Center(
+                                                      child: Text(
+                                                        " NEW ",
+                                                        style: Theme.of(context)
+                                                            .textTheme
+                                                            .labelMedium!
+                                                            .copyWith(
+                                                              color:
+                                                                  Theme.of(
+                                                                        context,
+                                                                      )
+                                                                      .colorScheme
+                                                                      .onPrimary,
+                                                            ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          )
+                                          : product.discountValue != null &&
+                                              product.discountValue != 0
+                                          ? SizedBox(
                                             height: 24,
                                             width: 40,
                                             child: DecoratedBox(
@@ -107,118 +184,51 @@ class productInFavorites extends StatelessWidget {
                                                 ),
                                               ),
                                             ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                              left: 8,
-                                              right: 8,
-                                            ),
-                                            child: SizedBox(
-                                              height: 24,
-                                              width: 40,
-                                              child: DecoratedBox(
-                                                decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(24),
-                                                  color:
-                                                      Theme.of(
-                                                        context,
-                                                      ).colorScheme.onSurface,
-                                                ),
-                                                child: Center(
-                                                  child: Text(
-                                                    " NEW ",
-                                                    style: Theme.of(context)
-                                                        .textTheme
-                                                        .labelMedium!
-                                                        .copyWith(
-                                                          color:
-                                                              Theme.of(context)
-                                                                  .colorScheme
-                                                                  .onPrimary,
-                                                        ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      )
-                                      : product.discountValue != null &&
-                                          product.discountValue != 0
-                                      ? SizedBox(
-                                        height: 24,
-                                        width: 40,
-                                        child: DecoratedBox(
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(
-                                              24,
-                                            ),
-                                            color:
-                                                Theme.of(
-                                                  context,
-                                                ).colorScheme.primary,
-                                          ),
-                                          child: Center(
-                                            child: Text(
-                                              " -${product.discountValue}% ",
-                                              style: Theme.of(
-                                                context,
-                                              ).textTheme.labelMedium!.copyWith(
+                                          )
+                                          : product.isNew
+                                          ? SizedBox(
+                                            height: 24,
+                                            width: 40,
+                                            child: DecoratedBox(
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(24),
                                                 color:
                                                     Theme.of(
                                                       context,
-                                                    ).colorScheme.onPrimary,
+                                                    ).colorScheme.onSurface,
+                                              ),
+                                              child: Center(
+                                                child: Text(
+                                                  " NEW ",
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .labelMedium!
+                                                      .copyWith(
+                                                        color:
+                                                            Theme.of(context)
+                                                                .colorScheme
+                                                                .onPrimary,
+                                                      ),
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                        ),
-                                      )
-                                      : product.isNew
-                                      ? SizedBox(
-                                        height: 24,
-                                        width: 40,
-                                        child: DecoratedBox(
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(
-                                              24,
-                                            ),
-                                            color:
-                                                Theme.of(
-                                                  context,
-                                                ).colorScheme.onSurface,
-                                          ),
-                                          child: Center(
-                                            child: Text(
-                                              " NEW ",
-                                              style: Theme.of(
-                                                context,
-                                              ).textTheme.labelMedium!.copyWith(
-                                                color:
-                                                    Theme.of(
-                                                      context,
-                                                    ).colorScheme.onPrimary,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      )
-                                      : SizedBox.shrink(),
-                                  const Spacer(),
-                                  Row(
-                                    children: [
-                                      Text(
-                                        "\$${product.price - (product.price * (product.discountValue! / 100))}",
-                                        style:
-                                            Theme.of(
-                                              context,
-                                            ).textTheme.headlineSmall,
-                                      ),
-                                      const SizedBox(width: 24),
+                                          )
+                                          : SizedBox.shrink(),
+                                      const SizedBox(width: 12),
                                       Rating_Bar(
                                         rate: product.rate!.toDouble(),
                                       ),
                                     ],
+                                  ),
+
+                                  const Spacer(),
+                                  Text(
+                                    "\$${product.price - (product.price * (product.discountValue! / 100))}",
+                                    style:
+                                        Theme.of(
+                                          context,
+                                        ).textTheme.headlineSmall,
                                   ),
                                 ],
                               ),
