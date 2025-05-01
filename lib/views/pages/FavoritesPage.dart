@@ -1,7 +1,5 @@
 import 'package:e_commerce/controllers/database_controller.dart';
 import 'package:e_commerce/models/product.dart';
-import 'package:e_commerce/views/widgets/Rating_Bar.dart';
-import 'package:e_commerce/views/widgets/addToBagCircle.dart';
 import 'package:e_commerce/views/widgets/productInFavorites.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -68,9 +66,13 @@ class FavoritesPage extends StatelessWidget {
                 padding: const EdgeInsets.all(16),
                 itemCount: favoriteProducts.length,
                 itemBuilder: (context, index) {
-                  return productInFavorites(
-                    size: size,
-                    product: favoriteProducts[index],
+                  // TODO : عاوز اخلي المنتجات اذا ضغطت عليها ينقلك الي صفخة المنتج
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 8),
+                    child: productInFavorites(
+                      size: size,
+                      product: favoriteProducts[index],
+                    ),
                   );
                 },
               );
