@@ -66,7 +66,6 @@ class FavoritesPage extends StatelessWidget {
                 padding: const EdgeInsets.all(16),
                 itemCount: favoriteProducts.length,
                 itemBuilder: (context, index) {
-                  // TODO : عاوز اخلي المنتجات اذا ضغطت عليها ينقلك الي صفخة المنتج
                   return Padding(
                     padding: const EdgeInsets.only(bottom: 8),
                     child: productInFavorites(

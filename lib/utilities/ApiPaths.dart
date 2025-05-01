@@ -9,4 +9,6 @@ class Apipaths {
       "users/${FirebaseAuth.instance.currentUser!.uid}/favorites";
   static String setProductInBag(String productId) =>
       "users/${FirebaseAuth.instance.currentUser!.uid}/Bag/$productId";
+  static String productInBag() =>
+      "users/${FirebaseAuth.instance.currentUser!.uid}/Bag";
 }
