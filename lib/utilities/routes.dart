@@ -5,4 +5,5 @@ class AppRoutes {
   static const String ForgotPassword = "/ForgotPassword";
   static const String BottomNavbar = "/Navbar";
   static const String ProductCard = "/ProductCard";
+  static const String CheckoutPage = "/CheckoutPage";
 }
