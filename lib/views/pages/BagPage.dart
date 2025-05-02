@@ -1,5 +1,6 @@
 import 'package:e_commerce/controllers/database_controller.dart';
 import 'package:e_commerce/models/ProductInBag.dart';
+import 'package:e_commerce/utilities/routes.dart';
 import 'package:e_commerce/views/widgets/main_Button.dart';
 import 'package:e_commerce/views/widgets/productInBag.dart';
 import 'package:flutter/material.dart';
@@ -77,7 +78,15 @@ class BagPage extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 12),
-                MainButton(onTap: () {}, text: "Checkout"),
+                MainButton(
+                  onTap: () {
+                    Navigator.of(
+                      context,
+                      rootNavigator: true,
+                    ).pushNamed(AppRoutes.CheckoutPage, arguments: total);
+                  },
+                  text: "Checkout",
+                ),
               ],
             ),
           );

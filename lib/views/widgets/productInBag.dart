@@ -1,7 +1,6 @@
 import 'package:e_commerce/controllers/database_controller.dart';
 import 'package:e_commerce/models/ProductInBag.dart';
 import 'package:e_commerce/utilities/routes.dart';
-import 'package:e_commerce/views/pages/Product_Card.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -19,11 +18,10 @@ class productInBag extends StatelessWidget {
           onTap: () async {
             final productData = await database.getProductById(product.id);
             if (productData != null) {
-              Navigator.pushNamed(
+              Navigator.of(
                 context,
-                AppRoutes.ProductCard,
-                arguments: productData,
-              );
+                rootNavigator: true,
+              ).pushNamed(AppRoutes.ProductCard, arguments: productData);
             }
           },
           child: DecoratedBox(
