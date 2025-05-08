@@ -5,8 +5,8 @@ class UserData {
 
   UserData({required this.id, required this.name, required this.email});
 
-  factory UserData.fromMap(Map<String, dynamic> map, String documentId) {
-    return UserData(id: documentId, name: map["name"], email: map["email"]);
+  factory UserData.fromMap(Map<String, dynamic> map) {
+    return UserData(id: map["id"], name: map["name"], email: map["email"]);
   }
 
   Map<String, dynamic> toMap() {

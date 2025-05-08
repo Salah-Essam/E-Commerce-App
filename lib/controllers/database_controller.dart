@@ -15,6 +15,7 @@ abstract class Database {
   Future<void> setProductInBag(ProductInBag productInBag);
   Future<void> deleteProductInBag(String productId);
   Stream<List<ProductInBag>> productInBagStream();
+  Future<UserData?> getUserData();
 }
 
 class FirestoreDatabase implements Database {
@@ -89,4 +90,14 @@ class FirestoreDatabase implements Database {
     path: Apipaths.productInBag(),
     builder: (data, documentId) => ProductInBag.fromMap(data!, documentId),
   );
+
+  @override
+  Future<UserData?> getUserData() async {
+    final data = await _service.getDocument(path: Apipaths.userData());
+    if (data != null) {
+      return UserData.fromMap(data);
+    } else {
+      return null;
+    }
+  }
 }
