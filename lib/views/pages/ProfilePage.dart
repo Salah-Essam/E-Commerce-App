@@ -1,10 +1,6 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:e_commerce/controllers/ProductProvider.dart';
-import 'package:e_commerce/models/product.dart';
+import 'package:e_commerce/models/userData.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-
 import 'package:e_commerce/controllers/database_controller.dart';
 import 'package:e_commerce/services/auth.dart';
 import 'package:e_commerce/views/widgets/main_Button.dart';
@@ -15,252 +11,209 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final database = Provider.of<Database>(context);
-    return Consumer<AuthBase>(
-      builder: (_, auth, __) {
-        return Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text("ProfilePage"),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 32),
-              child: Column(
-                children: [
-                  MainButton(
-                    onTap: () {
-                      auth.signOut();
-                    },
-                    text: "Sign Out",
-                  ),
-                  const SizedBox(height: 64),
-                  MainButton(
-                    onTap: () => _showAddProductDialog(context, database),
-                    text: "add product",
-                  ),
-                  const SizedBox(height: 64),
-                ],
-              ),
-            ),
-          ],
-        );
-      },
-    );
-  }
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          "My Profile",
+          style: Theme.of(
+            context,
+          ).textTheme.headlineLarge!.copyWith(fontWeight: FontWeight.bold),
+        ),
+      ),
+      body: Consumer<AuthBase>(
+        builder: (_, auth, __) {
+          return FutureBuilder<UserData?>(
+            future: database.getUserData(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Center(child: CircularProgressIndicator());
+              }
 
-  //TODO : دي المفروض انها تكون خاصية للموظفين فقط
-  void _showAddProductDialog(BuildContext context, Database database) {
-    final formKey = GlobalKey<FormState>();
-    showDialog(
-      context: context,
-      builder:
-          (context) => ChangeNotifierProvider<ProductProvider>(
-            create: (context) => ProductProvider(),
-            child: Consumer<ProductProvider>(
-              builder:
-                  (context, productProvider, _) => AlertDialog(
-                    title: Text('Add New Product'),
-                    content: ConstrainedBox(
-                      constraints: BoxConstraints(maxWidth: 400),
-                      child: Form(
-                        key: formKey,
-                        child: SingleChildScrollView(
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
+              final userData = snapshot.data;
+
+              return SingleChildScrollView(
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 24,
+                        vertical: 8,
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          DecoratedBox(
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              shape: BoxShape.circle,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: const Color.fromARGB(15, 0, 0, 0),
+                                  blurRadius: 10,
+                                ),
+                              ],
+                            ),
+                            child: SizedBox(
+                              width: 100,
+                              height: 100,
+                              child: Icon(
+                                Icons.person,
+                                color: Colors.grey,
+                                size: 50,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 16),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              TextField_addProduct<String>(
-                                label: "title",
-                                update: productProvider.updateTitle,
+                              Text(
+                                userData!.name,
+                                style:
+                                    Theme.of(context).textTheme.headlineMedium,
                               ),
-                              const SizedBox(height: 8),
-                              TextField_addProduct<int>(
-                                label: "price",
-                                update: productProvider.updatePrice,
-                                Type: TextInputType.number,
-                                format: [
-                                  FilteringTextInputFormatter.digitsOnly,
-                                ],
-                                customValidator: (value) {
-                                  if (value != null && value.isNotEmpty) {
-                                    final price = int.tryParse(value);
-                                    if (price == null || price <= 0) {
-                                      return 'Please enter a valid price';
-                                    }
-                                  }
-                                  return null;
-                                },
-                              ),
-                              const SizedBox(height: 8),
-                              TextField_addProduct<String>(
-                                label: "category",
-                                update: productProvider.updateCategory,
-                              ),
-                              const SizedBox(height: 8),
-                              TextField_addProduct<String>(
-                                label: "imageUrl",
-                                update: productProvider.updateImageUrl,
-                                customValidator: (value) {
-                                  if (value != null && value.isNotEmpty) {
-                                    if (!Uri.tryParse(value)!.hasAbsolutePath) {
-                                      return 'Please enter a valid URL';
-                                    }
-                                  }
-                                  return null;
-                                },
-                              ),
-                              const SizedBox(height: 8),
-                              TextField_addProduct<int>(
-                                label: "discount (optional)",
-                                update: productProvider.updateDiscount,
-                                isRequired: false,
-                                Type: TextInputType.number,
-                                format: [
-                                  FilteringTextInputFormatter.digitsOnly,
-                                ],
-                                customValidator: (value) {
-                                  if (value != null && value.isNotEmpty) {
-                                    final discount = int.tryParse(value);
-                                    if (discount == null ||
-                                        discount < 0 ||
-                                        discount > 100) {
-                                      return 'Discount must be between 0 and 100';
-                                    }
-                                  }
-                                  return null;
-                                },
-                              ),
-                              const SizedBox(height: 8),
-                              TextField_addProduct<int>(
-                                label: 'Rate (optional)',
-                                update: productProvider.updateRate,
-                                isRequired: false,
-                                Type: TextInputType.number,
-                                format: [
-                                  FilteringTextInputFormatter.digitsOnly,
-                                ],
-                                customValidator: (value) {
-                                  if (value != null && value.isNotEmpty) {
-                                    final rate = int.tryParse(value);
-                                    if (rate == null || rate < 0 || rate > 5) {
-                                      return 'Rate must be between 0 and 5';
-                                    }
-                                  }
-                                  return null;
-                                },
-                              ),
-                              const SizedBox(height: 8),
-                              Row(
-                                children: [
-                                  Checkbox(
-                                    value: productProvider.isNew,
-                                    onChanged: (value) {
-                                      productProvider.toggleIsNew(
-                                        value ?? false,
-                                      );
-                                    },
-                                  ),
-                                  Text('New Product'),
-                                ],
+                              Text(
+                                userData.email,
+                                style: Theme.of(context).textTheme.bodyMedium,
                               ),
                             ],
                           ),
-                        ),
+                        ],
                       ),
                     ),
-                    actions: [
-                      TextButton(
-                        onPressed: () => Navigator.of(context).pop(),
-                        child: Text('Cancel'),
+                    const SizedBox(height: 32),
+                    ListTile(
+                      onTap: () {},
+                      title: Text(
+                        "My orders",
+                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                      TextButton(
-                        onPressed: () async {
-                          if (formKey.currentState!.validate()) {
-                            try {
-                              final productId = DateTime.now().toString();
-
-                              database.setProduct(
-                                Product(
-                                  id: productId,
-                                  title: productProvider.title!,
-                                  price: productProvider.price!,
-                                  category: productProvider.category!,
-                                  imageUrl: productProvider.imageUrl!,
-                                  discountValue: productProvider.discount,
-                                  rate: productProvider.rate,
-                                  isNew: productProvider.isNew!,
-                                ),
-                              );
-                              Navigator.of(context).pop();
-                            } catch (e) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text('Error adding product: $e'),
-                                ),
-                              );
-                            }
-                          }
+                      subtitle: Text(
+                        "Already have 12 orders",
+                        style: Theme.of(
+                          context,
+                        ).textTheme.bodySmall!.copyWith(color: Colors.grey),
+                      ),
+                      trailing: Icon(
+                        Icons.arrow_forward_ios_rounded,
+                        color: Colors.grey,
+                      ),
+                    ),
+                    ListTile(
+                      onTap: () {},
+                      title: Text(
+                        "Shipping addresses",
+                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      subtitle: Text(
+                        "3 ddresses",
+                        style: Theme.of(
+                          context,
+                        ).textTheme.bodySmall!.copyWith(color: Colors.grey),
+                      ),
+                      trailing: Icon(
+                        Icons.arrow_forward_ios_rounded,
+                        color: Colors.grey,
+                      ),
+                    ),
+                    ListTile(
+                      onTap: () {},
+                      title: Text(
+                        "Payment methods",
+                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      subtitle: Text(
+                        "Visa  **34",
+                        style: Theme.of(
+                          context,
+                        ).textTheme.bodySmall!.copyWith(color: Colors.grey),
+                      ),
+                      trailing: Icon(
+                        Icons.arrow_forward_ios_rounded,
+                        color: Colors.grey,
+                      ),
+                    ),
+                    ListTile(
+                      onTap: () {},
+                      title: Text(
+                        "Promocodes",
+                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      subtitle: Text(
+                        "You have special promocodes",
+                        style: Theme.of(
+                          context,
+                        ).textTheme.bodySmall!.copyWith(color: Colors.grey),
+                      ),
+                      trailing: Icon(
+                        Icons.arrow_forward_ios_rounded,
+                        color: Colors.grey,
+                      ),
+                    ),
+                    ListTile(
+                      onTap: () {},
+                      title: Text(
+                        "My reviews",
+                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      subtitle: Text(
+                        "Reviews for 4 items",
+                        style: Theme.of(
+                          context,
+                        ).textTheme.bodySmall!.copyWith(color: Colors.grey),
+                      ),
+                      trailing: Icon(
+                        Icons.arrow_forward_ios_rounded,
+                        color: Colors.grey,
+                      ),
+                    ),
+                    ListTile(
+                      onTap: () {},
+                      title: Text(
+                        "Settings",
+                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      subtitle: Text(
+                        "Notifications, password",
+                        style: Theme.of(
+                          context,
+                        ).textTheme.bodySmall!.copyWith(color: Colors.grey),
+                      ),
+                      trailing: Icon(
+                        Icons.arrow_forward_ios_rounded,
+                        color: Colors.grey,
+                      ),
+                    ),
+                    const SizedBox(height: 32),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 24),
+                      child: MainButton(
+                        onTap: () {
+                          auth.signOut();
                         },
-                        child: Text('Add'),
+                        text: "Sign Out",
                       ),
-                    ],
-                  ),
-            ),
-          ),
-    );
-  }
-}
-
-class TextField_addProduct<T> extends StatelessWidget {
-  final void Function(T)? update;
-  final String label;
-  final TextInputType? Type;
-  final List<TextInputFormatter>? format;
-  final bool isRequired;
-  final String? Function(String?)? customValidator;
-
-  const TextField_addProduct({
-    super.key,
-    required this.update,
-    required this.label,
-    this.Type,
-    this.format,
-    this.isRequired = true,
-    this.customValidator,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return TextFormField(
-      onChanged: (value) {
-        if (update != null) {
-          if (T == int) {
-            final intValue = int.tryParse(value);
-            if (intValue != null) {
-              update!(intValue as T);
-            }
-          } else {
-            update!(value as T);
-          }
-        }
-      },
-      keyboardType: Type,
-      inputFormatters: format,
-      decoration: InputDecoration(
-        labelText: label,
-        border: OutlineInputBorder(),
+                    ),
+                    const SizedBox(height: 32),
+                  ],
+                ),
+              );
+            },
+          );
+        },
       ),
-      validator: (value) {
-        if (isRequired && (value == null || value.isEmpty)) {
-          return 'This field is required';
-        }
-        if (customValidator != null) {
-          return customValidator!(value);
-        }
-        if (T == int && value != null && value.isNotEmpty) {
-          if (int.tryParse(value) == null) {
-            return 'Please enter a valid number';
-          }
-        }
-        return null;
-      },
     );
   }
 }

@@ -1,4 +1,5 @@
 import 'package:e_commerce/models/product.dart';
+import 'package:e_commerce/models/userData.dart';
 import 'package:e_commerce/utilities/routes.dart';
 import 'package:e_commerce/views/pages/CheckoutPage.dart';
 import 'package:e_commerce/views/pages/ForgotPasswordPage.dart';
@@ -12,9 +13,13 @@ import 'package:flutter/cupertino.dart';
 Route<dynamic> onGenerate(RouteSettings settings) {
   switch (settings.name) {
     case AppRoutes.CheckoutPage:
-      final total = settings.arguments as int;
+      final args = settings.arguments as Map<String, dynamic>;
       return CupertinoPageRoute(
-        builder: (_) => CheckoutPage(total: total),
+        builder:
+            (_) => CheckoutPage(
+              total: args['total'] as int,
+              userData: args['userData'] as UserData,
+            ),
         settings: settings,
       );
     case AppRoutes.ProductCard:
