@@ -18,17 +18,6 @@ class _BottomNavbarState extends State<BottomNavbar> {
     PersistentTabConfig(
       screen: Padding(
         padding: EdgeInsets.only(bottom: padding),
-        child: const ProfilePage(),
-      ),
-      item: ItemConfig(
-        icon: const Icon(Icons.person),
-        title: "Profile",
-        activeForegroundColor: const Color(0xFFDB3022),
-      ),
-    ),
-    PersistentTabConfig(
-      screen: Padding(
-        padding: EdgeInsets.only(bottom: padding),
         child: const HomePage(),
       ),
       item: ItemConfig(
@@ -67,6 +56,17 @@ class _BottomNavbarState extends State<BottomNavbar> {
       item: ItemConfig(
         icon: const Icon(Icons.favorite),
         title: "Favorites",
+        activeForegroundColor: const Color(0xFFDB3022),
+      ),
+    ),
+    PersistentTabConfig(
+      screen: Padding(
+        padding: EdgeInsets.only(bottom: padding),
+        child: const ProfilePage(),
+      ),
+      item: ItemConfig(
+        icon: const Icon(Icons.person),
+        title: "Profile",
         activeForegroundColor: const Color(0xFFDB3022),
       ),
     ),

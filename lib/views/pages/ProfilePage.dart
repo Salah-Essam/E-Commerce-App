@@ -20,19 +20,19 @@ class ProfilePage extends StatelessWidget {
           ).textTheme.headlineLarge!.copyWith(fontWeight: FontWeight.bold),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Consumer<AuthBase>(
-          builder: (_, auth, __) {
-            return FutureBuilder<UserData?>(
-              future: database.getUserData(),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(child: CircularProgressIndicator());
-                }
+      body: Consumer<AuthBase>(
+        builder: (_, auth, __) {
+          return FutureBuilder<UserData?>(
+            future: database.getUserData(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Center(child: CircularProgressIndicator());
+              }
 
-                final userData = snapshot.data;
+              final userData = snapshot.data;
 
-                return Column(
+              return SingleChildScrollView(
+                child: Column(
                   children: [
                     Padding(
                       padding: const EdgeInsets.symmetric(
@@ -208,11 +208,11 @@ class ProfilePage extends StatelessWidget {
                     ),
                     const SizedBox(height: 32),
                   ],
-                );
-              },
-            );
-          },
-        ),
+                ),
+              );
+            },
+          );
+        },
       ),
     );
   }

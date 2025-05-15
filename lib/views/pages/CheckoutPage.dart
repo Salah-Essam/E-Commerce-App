@@ -1,10 +1,14 @@
 import 'package:e_commerce/views/widgets/main_Button.dart';
 import 'package:flutter/material.dart';
+import 'package:e_commerce/models/userData.dart';
 
 class CheckoutPage extends StatelessWidget {
-  const CheckoutPage({super.key, required this.total});
   final int total;
+  final UserData userData;
   final int deliveryFee = 15;
+
+  const CheckoutPage({super.key, required this.total, required this.userData});
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -58,7 +62,7 @@ class CheckoutPage extends StatelessWidget {
                         Row(
                           children: [
                             Text(
-                              'User Name',
+                              userData.name,
                               style: Theme.of(context).textTheme.titleLarge!
                                   .copyWith(fontWeight: FontWeight.bold),
                             ),

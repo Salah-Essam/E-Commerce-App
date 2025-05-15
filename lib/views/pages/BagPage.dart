@@ -5,6 +5,7 @@ import 'package:e_commerce/views/widgets/main_Button.dart';
 import 'package:e_commerce/views/widgets/productInBag.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:e_commerce/models/userData.dart';
 
 class BagPage extends StatelessWidget {
   const BagPage({super.key});
@@ -79,11 +80,18 @@ class BagPage extends StatelessWidget {
                 ),
                 const SizedBox(height: 12),
                 MainButton(
-                  onTap: () {
-                    Navigator.of(
-                      context,
-                      rootNavigator: true,
-                    ).pushNamed(AppRoutes.CheckoutPage, arguments: total);
+                  onTap: () async {
+                    final userData = await database.getUserData();
+                    if (userData != null) {
+                      Navigator.of(context, rootNavigator: true).pushNamed(
+                        AppRoutes.CheckoutPage,
+                        arguments: {'total': total, 'userData': userData},
+                      );
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('User data not found')),
+                      );
+                    }
                   },
                   text: "Checkout",
                 ),
